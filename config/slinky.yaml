@@ -4,8 +4,10 @@ settings:
   d_path: build/{version}/drmario64.{version}.d
   target_path: build/{version}/drmario64.{version}.elf
 
-  partial_scripts_folder: build/{version}/linker_scripts/partial
+  partial_scripts_folder: build/{version}/segments
   partial_build_segments_folder: segments
+
+  paths_list_path: build/{version}/drmario64.{version}.o_files.list
 
   sections_allowlist:
     # mips debug sections

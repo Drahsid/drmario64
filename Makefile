@@ -269,48 +269,33 @@ LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/
 LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
-S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
 MSG_FILES     := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
-C_O_FILES     := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f)
-S_O_FILES     := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
-
-O_FILES       := $(C_O_FILES) \
-                 $(S_O_FILES)
+O_FILES       := $(shell cat  $(BUILD_DIR)/drmario64.$(VERSION).o_files.list) \
+                 $(shell find $(BUILD_DIR)/segments -type f -name "*.list" -exec cat {} \;)
 
 # Asm files to be built with modern GAS.
-M_GAS_S_O_FILES  := $(filter $(BUILD_DIR)/asm/%, $(S_O_FILES)) \
-                    $(filter $(BUILD_DIR)/src/rsp/%, $(S_O_FILES))
-
-# Asm files to be built with og compiler.
-COMP_S_O_FILES   := $(filter-out $(ASDF), $(S_O_FILES))
+M_GAS_S_O_FILES  := $(filter $(BUILD_DIR)/asm/%, $(O_FILES)) \
+                    $(filter $(BUILD_DIR)/src/rsp/%, $(O_FILES))
 
 
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 MSG_INC_FILES := $(foreach f,$(MSG_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
 
-SEGMENTS_SCRIPTS := $(wildcard $(BUILD_DIR)/linker_scripts/partial/*.ld)
-SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
-SEGMENTS         := $(foreach f, $(SEGMENTS_SCRIPTS:.ld=), $(notdir $f))
-SEGMENTS_O       := $(foreach f, $(SEGMENTS), $(BUILD_DIR)/segments/$f.o)
 
 LINKER_SCRIPTS   := $(LD_SCRIPT)
 
 
 # Automatic dependency files
-DEP_FILES := $(D_FILE) $(SEGMENTS_D)
+DEP_FILES := $(D_FILE)
 
 ifneq ($(DEP_ASM), 0)
     DEP_FILES += $(O_FILES:.o=.asmproc.d)
 endif
 
-ifneq ($(DEP_INCLUDE), 0)
-    DEP_FILES += $(O_FILES:.o=.d)
-endif
-
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/segments)
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts $(BUILD_DIR)/segments)
 $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
@@ -415,7 +400,7 @@ format:
 	clang-format-14 -i -style=file $(C_FILES)
 
 tidy:
-	clang-tidy-14 -p . --fix --fix-errors --fix-notes $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) -I build/$(VERSION)/src/main_segment $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -U __IS_KMC__ -U __IS_EGCS__
+	clang-tidy-14 -p . --fix --fix-errors --fix-notes $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) -I $(BUILD_DIR)/src/main_segment $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -U __IS_KMC__ -U __IS_EGCS__
 
 .PHONY: all compressed uncompressed clean distclean setup extract diff-init init format tidy
 .DEFAULT_GOAL := all
@@ -434,8 +419,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
-	$(file >$(@:.elf=.o_files.txt), $(filter %.o, $^))
-	$(LD) $(ENDIAN) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) $(LDFLAGS) -o $@ @$(@:.elf=.o_files.txt)
+	$(LD) $(ENDIAN) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) $(LDFLAGS) -o $@ @$(@:.elf=.o_files.list)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -450,6 +434,8 @@ asset_files_clean:
 	$(RM) -r $(PNG_INC_FILES)
 msg_files_clean:
 	$(RM) -r $(MSG_INC_FILES)
+
+o_files: $(O_FILES)
 
 .PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
 
@@ -499,9 +485,8 @@ $(BUILD_DIR)/lib/%.o: lib/%.c
 $(BUILD_DIR)/lib/%.o: lib/%.s
 	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) ../$@
 
-$(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/linker_scripts/partial/%.ld
-	$(file >$(@:.o=.o_files.txt), $(filter %.o, $^))
-	$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.o_files.txt)
+$(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/segments/%.ld
+	$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.list)
 
 # Make inc files from assets
 
