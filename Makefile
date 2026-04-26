@@ -274,6 +274,7 @@ MSG_FILES     := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
 O_FILES       := $(shell cat  $(BUILD_DIR)/drmario64.$(VERSION).o_files.list) \
                  $(shell find $(BUILD_DIR)/segments -type f -name "*.list" -exec cat {} \;)
+O_FILES       := $(filter %.o, $(O_FILES))
 
 # Asm files to be built with modern GAS.
 M_GAS_S_O_FILES  := $(filter $(BUILD_DIR)/asm/%, $(O_FILES)) \
@@ -485,8 +486,9 @@ $(BUILD_DIR)/lib/%.o: lib/%.c
 $(BUILD_DIR)/lib/%.o: lib/%.s
 	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) ../$@
 
-$(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/segments/%.ld
-	$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.list)
+# Partial segments
+$(BUILD_DIR)/%.plf: $(BUILD_DIR)/%.ld
+	$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.plf=.map) -o $@ @$(@:.plf=.list)
 
 # Make inc files from assets
 

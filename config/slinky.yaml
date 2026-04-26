@@ -4,8 +4,9 @@ settings:
   d_path: build/{version}/drmario64.{version}.d
   target_path: build/{version}/drmario64.{version}.elf
 
-  partial_scripts_folder: build/{version}/segments
-  partial_build_segments_folder: segments
+  partial:
+    build_segments_folder: segments
+    scripts_folder: build/{version}/segments
 
   paths_list_path: build/{version}/drmario64.{version}.o_files.list
 

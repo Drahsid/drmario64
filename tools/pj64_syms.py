@@ -10,6 +10,14 @@ import mapfile_parser
 from pathlib import Path
 
 
+def plfResolver(x: Path) -> Path|None:
+    if x.suffix == ".plf":
+        plf_map_path = x.with_suffix(".map")
+        if plf_map_path.exists():
+            return plf_map_path
+    return None
+
+
 def mapToPj64symsMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="version to process", default="us")
@@ -21,7 +29,8 @@ def mapToPj64symsMain():
     output: Path = args.output
     mapPath = Path("build") / args.version / f"drmario64.{version}.map"
 
-    exit(mapfile_parser.frontends.pj64_syms.doPj64Syms(mapPath, output))
+    ret = mapfile_parser.frontends.pj64_syms.doPj64Syms(mapPath, output, plfResolver=plfResolver)
+    exit(ret)
 
 if __name__ == "__main__":
     mapToPj64symsMain()

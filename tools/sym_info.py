@@ -10,6 +10,13 @@ import mapfile_parser
 from pathlib import Path
 
 
+def plfResolver(x: Path) -> Path|None:
+    if x.suffix == ".plf":
+        plf_map_path = x.with_suffix(".map")
+        if plf_map_path.exists():
+            return plf_map_path
+    return None
+
 
 def symInfoMain():
     parser = argparse.ArgumentParser(description="Display various information about a symbol or address.")
@@ -19,13 +26,18 @@ def symInfoMain():
 
     args = parser.parse_args()
 
-    BUILTMAP = Path(f"build") / args.version / f"drmario64.{args.version}.map"
+    BUILTMAP = Path("build") / args.version / f"drmario64.{args.version}.map"
 
     mapPath = BUILTMAP
     if args.use_expected:
         mapPath = "expected" / BUILTMAP
 
-    mapfile_parser.frontends.sym_info.doSymInfo(mapPath, args.symname)
+    ret = mapfile_parser.frontends.sym_info.doSymInfo(
+        mapPath,
+        args.symname,
+        plfResolver=plfResolver,
+    )
+    exit(ret)
 
 if __name__ == "__main__":
     symInfoMain()
