@@ -2215,12 +2215,8 @@ s32 aifSearchLineMS(struct_aiFlag *ag, s32 mx, s32 my, s32 mco, s32 sx, s32 sy, 
     return 0;
 }
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
-#endif
-
-#if VERSION_US || VERSION_CN
-#if VERSION_US || defined(NON_MATCHING)
+#if VERSION_US || VERSION_GW || VERSION_CN
+#if VERSION_US || VERSION_GW || defined(NON_MATCHING)
 void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
     struct_aiFlag *temp;
     s32 sp30;
