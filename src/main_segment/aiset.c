@@ -2215,427 +2215,12 @@ s32 aifSearchLineMS(struct_aiFlag *ag, s32 mx, s32 my, s32 mco, s32 sx, s32 sy, 
     return 0;
 }
 
-#if VERSION_US
-/**
- * Original name: aiHiruAllPriSet
- */
-#if 0
-u8 aifRensaCheckCore(struct_game_state_data *, u8 *, u32, u8, s32, s32, u32, s32, s32, s32); /* extern */
-s32 aifSearchLineMS(u8 *, s32, u8, s32);              /* extern */
-extern u16 aiHiErB;
-extern u16 aiPriOfs;
-extern u16 aiHiErY;
-extern u16 aiHiErR;
-extern u16 aiHiEraseCtr;
-extern s16 D_8008856A;
-extern s16 RensaP;
-extern s16 RensaMP;
-
-void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
-    struct_game_state_data *sp2C;
-    s32 sp34;
-    u8 sp3F;
-    s8 sp47;                                        /* compiler-managed */
-    u8 sp4F;
-    u8 sp57;
-    u8 sp5F;
-    u8 sp67;
-    u8 sp6F;
-    s32 sp8C;
-    s32 sp90;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_fp;
-    s32 temp_s0;
-    s32 temp_s0_11;
-    s32 temp_s0_13;
-    s32 temp_s0_14;
-    s32 temp_s0_3;
-    s32 temp_s0_5;
-    s32 temp_s0_6;
-    s32 temp_s0_8;
-    s32 temp_s0_9;
-    s32 temp_s1;
-    s32 temp_s2;
-    s32 temp_s2_2;
-    s32 temp_s2_3;
-    s32 temp_s4;
-    s32 temp_s5_2;
-    s32 temp_s5_3;
-    s32 temp_t4;
-    s32 temp_t4_3;
-    s32 temp_t4_4;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 var_a0;
-    s32 var_a1;
-    s32 var_a1_2;
-    s32 var_a2_2;
-    s32 var_a3;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_s1_2;
-    s32 var_s1_3;
-    s32 var_s2;
-    s32 var_s2_2;
-    s32 var_s2_3;
-    s32 var_s4;
-    s32 var_s4_2;
-    s32 var_s5;
-    s32 var_t1_2;
-    s32 var_v0;
-    s8 temp_a0_2;
-    s8 var_t1;
-    u32 temp_s1_2;
-    u32 temp_s1_3;
-    u32 temp_s1_4;
-    u32 temp_s1_5;
-    u32 temp_s1_6;
-    u32 temp_s1_7;
-    u32 temp_s2_4;
-    u32 temp_s5;
-    u32 temp_s6;
-    u8 *temp_s3;
-    u8 temp_a0;
-    u8 temp_s0_10;
-    u8 temp_s0_12;
-    u8 temp_s0_2;
-    u8 temp_s0_4;
-    u8 temp_s0_7;
-    u8 temp_t4_2;
-    u8 var_a2;
-    u8 var_s1;
-    u8 var_v1;
-
-    sp2C = gameStateDataRef;
-    sp34 = 0;
-    if ((s32) aiFlagCnt > 0) {
-        sp8C = 0;
-        do {
-            if (aiFlag[sp8C].unk_0 != 0) {
-                temp_s3 = &aiFlag[sp8C];
-                bcopy(aiFieldData, &aif_field, 0x110);
-                var_a2 = temp_s3->unk_3;
-                temp_a0 = temp_s3->unk_2;
-                temp_s4 = temp_a0 - 1;
-                if (temp_s3->unk_1 == 0) {
-                    var_s5 = temp_s4;
-                    var_s2 = var_s5;
-                    temp_a0_2 = var_a2 - 1;
-                    sp3F = var_a2;
-                    sp47 = temp_a0_2;
-                    sp57 &= -(temp_a0_2 < 1);
-                    if (temp_s3->unk_4 == 0) {
-                        var_s1 = aiNext[1];
-                        if (temp_a0_2 > 0) {
-                            sp4F = *aiNext;
-                        }
-                    } else {
-                        var_s1 = *aiNext;
-                        if (temp_a0_2 > 0) {
-                            sp4F = aiNext[1];
-                        }
-                    }
-                    if (sp3F != 0) {
-                        temp_v0 = ((var_s5 & 0xFF) * 2) + (sp3F * 0x10);
-                        *(&B_800FAD41 + temp_v0) = 1;
-                        *(&aif_field + temp_v0) = var_s1;
-                    }
-                    if ((u8) sp47 != 0) {
-                        temp_v0_2 = ((var_s2 & 0xFF) * 2) + ((u8) sp47 * 0x10);
-                        *(&B_800FAD41 + temp_v0_2) = sp57;
-                        *(&aif_field + temp_v0_2) = sp4F;
-                    }
-                    temp_a0_3 = temp_s4 * 2;
-                    if (*(&aif_field + (temp_a0_3 + ((var_a2 - 1) * 0x10))) == *(&aif_field + (temp_a0_3 + (var_a2 * 0x10)))) {
-
-                    }
-                    var_a1 = temp_s4;
-                    var_a3 = var_s1 & 0xFF;
-                    sp90 = (s32) 1;
-                } else {
-                    var_s5 = temp_s4;
-                    if (*(&B_800FAD41 + ((temp_s4 * 2) + ((var_a2 + 1) * 0x10))) != 0xA) {
-                        sp3F = var_a2;
-                        var_t1 = 2;
-                        var_s2 = (s32) temp_a0;
-                        sp47 = sp3F;
-                        sp57 = 3;
-                        if (temp_s3->unk_4 == 0) {
-                            var_s1 = *aiNext;
-                            sp4F = aiNext[1];
-                        } else {
-                            var_s1 = aiNext[1];
-                            sp4F = *aiNext;
-                        }
-                    } else {
-                        var_s5 = (s32) temp_a0;
-                        sp3F = var_a2;
-                        var_t1 = 3;
-                        var_s2 = temp_s4;
-                        sp47 = sp3F;
-                        sp57 = 2;
-                        if (temp_s3->unk_4 == 0) {
-                            var_s1 = aiNext[1];
-                            sp4F = *aiNext;
-                        } else {
-                            var_s1 = *aiNext;
-                            sp4F = aiNext[1];
-                        }
-                    }
-                    var_a3 = var_s1 & 0xFF;
-                    if (var_a3 == sp4F) {
-
-                    }
-                    var_a2 = sp3F;
-                    if (var_a2 != 0) {
-                        temp_v0_3 = ((var_s5 & 0xFF) * 2) + (var_a2 * 0x10);
-                        *(&B_800FAD41 + temp_v0_3) = var_t1;
-                        *(&aif_field + temp_v0_3) = var_s1;
-                    }
-                    if (sp47 != 0) {
-                        temp_v0_4 = ((var_s2 & 0xFF) * 2) + (sp47 * 0x10);
-                        *(&B_800FAD41 + temp_v0_4) = sp57;
-                        *(&aif_field + temp_v0_4) = sp4F;
-                    }
-                    var_a1 = var_s5 & 0xFF;
-                    sp90 = (s32) var_t1;
-                }
-                temp_v0_5 = aifSearchLineMS(temp_s3, var_a1, var_a2, var_a3);
-                var_t1_2 = sp90;
-                if ((temp_v0_5 != 0) && (RensaP != 0)) {
-                    if (temp_v0_5 == 2) {
-                        temp_s0 = var_s5;
-                        var_s5 = var_s2;
-                        var_s2 = temp_s0;
-                        temp_t4_2 = sp47;
-                        sp47 = sp3F;
-                        temp_s0_2 = var_s1;
-                        var_s1 = sp4F;
-                        sp4F = temp_s0_2;
-                        temp_s0_3 = var_t1_2;
-                        var_t1_2 = (s32) sp57;
-                        sp3F = temp_t4_2;
-                        sp57 = (u8) temp_s0_3;
-                    }
-                    temp_s6 = var_s5 & 0xFF;
-                    temp_fp = var_s1 & 0xFF;
-                    temp_s1 = var_t1_2 & 0xFF;
-                    temp_s5 = var_s2 & 0xFF;
-                    sp5F = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, temp_s1, temp_s5, (s32) sp47, 0, (s32) sp57);
-                    aiHiErR = aiHiEraseCtr;
-                    sp67 = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, temp_s1, temp_s5, (s32) sp47, 1, (s32) sp57);
-                    aiHiErY = aiHiEraseCtr;
-                    sp6F = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, temp_s1, temp_s5, (s32) sp47, 2, (s32) sp57);
-                    aiHiErB = aiHiEraseCtr;
-                    var_s0 = 0;
-                    if (temp_s6 == temp_s5) {
-                        temp_s2 = var_s2 - 1;
-                        if (sp47 < sp3F) {
-                            temp_s1_2 = temp_s2 & 0xFF;
-                            sp47 += 1;
-                            temp_s5_2 = (u8) sp47 * 0x10;
-                            if (sp2C->unk_29C[0][0][(temp_s1_2 * 2) + temp_s5_2] == 0xA) {
-                                temp_s0_4 = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_2, (s32) (u8) sp47, 0, 2);
-                                temp_s0_5 = temp_s0_4 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_2, (s32) (u8) sp47, 1, 2);
-                                var_s0 = temp_s0_5 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_2, (s32) (u8) sp47, 2, 2);
-                            }
-                            temp_s1_3 = (temp_s2 + 2) & 0xFF;
-                            sp57 = 3;
-                            if (sp2C->unk_29C[0][0][(temp_s1_3 * 2) + temp_s5_2] == 0xA) {
-                                temp_s0_6 = var_s0 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_3, (s32) (u8) sp47, 0, 3);
-                                var_s0_2 = temp_s0_6 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_3, (s32) (u8) sp47, 1, 3);
-                                goto block_53;
-                            }
-                        } else {
-                            temp_s1_4 = temp_s2 & 0xFF;
-                            sp47 = (u8) sp47 - 1;
-                            temp_s5_3 = (u8) sp47 * 0x10;
-                            if (sp2C->unk_29C[0][0][(temp_s1_4 * 2) + temp_s5_3] == 0xA) {
-                                temp_s0_7 = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_4, (s32) (u8) sp47, 0, 2);
-                                temp_s0_8 = temp_s0_7 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_4, (s32) (u8) sp47, 1, 2);
-                                var_s0 = temp_s0_8 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_4, (s32) (u8) sp47, 2, 2);
-                            }
-                            temp_s1_5 = (temp_s2 + 2) & 0xFF;
-                            sp57 = 3;
-                            if (sp2C->unk_29C[0][0][(temp_s1_5 * 2) + temp_s5_3] == 0xA) {
-                                temp_s0_9 = var_s0 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_5, (s32) (u8) sp47, 0, 3);
-                                var_s0_2 = temp_s0_9 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_5, (s32) (u8) sp47, 1, 3);
-                                goto block_53;
-                            }
-                        }
-                    } else {
-                        temp_v1 = sp47 * 0x10;
-                        if (temp_s5 < temp_s6) {
-                            temp_s2_2 = var_s2 + 2;
-                            temp_s1_6 = temp_s2_2 & 0xFF;
-                            if (sp2C->unk_29C[0][0][(temp_s1_6 * 2) + temp_v1] == 0xA) {
-                                temp_s0_10 = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_6, (s32) sp47, 0, 3);
-                                temp_s0_11 = temp_s0_10 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_6, (s32) sp47, 1, 3);
-                                var_s0 = temp_s0_11 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 2, temp_s1_6, (s32) sp47, 2, 3);
-                            }
-                            var_s2_2 = temp_s2_2 - 1;
-                        } else {
-                            temp_s2_3 = var_s2 - 2;
-                            temp_s1_7 = temp_s2_3 & 0xFF;
-                            if (sp2C->unk_29C[0][0][(temp_s1_7 * 2) + temp_v1] == 0xA) {
-                                temp_s0_12 = aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_7, (s32) sp47, 0, 2);
-                                temp_s0_13 = temp_s0_12 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_7, (s32) sp47, 1, 2);
-                                var_s0 = temp_s0_13 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 3, temp_s1_7, (s32) sp47, 2, 2);
-                            }
-                            var_s2_2 = temp_s2_3 + 1;
-                        }
-                        temp_s2_4 = var_s2_2 & 0xFF;
-                        sp47 = (u8) sp47 - 1;
-                        sp57 = 0;
-                        if (sp2C->unk_29C[0][0][(temp_s2_4 * 2) + ((u8) sp47 * 0x10)] == 0xA) {
-                            temp_s0_14 = var_s0 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 1, temp_s2_4, (s32) (u8) sp47, 0, 0);
-                            var_s0_2 = temp_s0_14 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F, temp_fp, 1, temp_s2_4, (s32) (u8) sp47, 1, 0);
-block_53:
-                            var_s0 = var_s0_2 | aifRensaCheckCore(sp2C, temp_s3, temp_s6, sp3F);
-                        }
-                    }
-                    switch (sp4F) {                 /* irregular */
-                        case 0x0:
-                            var_a1_2 = temp_s3->unk_8 + ((s16) aiHiErR * D_8008856A);
-                            temp_s3->unk_8 = var_a1_2;
-                            if (sp5F != 0) {
-                                if ((((sp67 != 0) | (sp6F != 0)) != 0) || (var_s0 & 0xFF)) {
-                                    var_v0 = var_a1_2 + (RensaP * sp5F);
-                                } else {
-                                    var_v0 = var_a1_2 + (RensaP * sp5F);
-                                }
-                                goto block_88;
-                            }
-                            var_v1 = sp67;
-block_68:
-                            if ((((var_v1 != 0) | (sp6F != 0)) == 0) && !(var_s0 & 0xFF)) {
-                                temp_s3->unk_8 = var_a1_2;
-                            } else {
-block_86:
-                                if (sp3F >= 3U) {
-                                    var_v0 = var_a1_2 + RensaMP;
-block_88:
-                                    temp_s3->unk_8 = var_v0;
-                                }
-                            }
-                            break;
-                        case 0x1:
-                            var_a1_2 = temp_s3->unk_8 + ((s16) aiHiErY * D_8008856A);
-                            temp_s3->unk_8 = var_a1_2;
-                            if (sp67 != 0) {
-                                if ((((sp5F != 0) | (sp6F != 0)) != 0) || (var_s0 & 0xFF)) {
-                                    var_v0 = var_a1_2 + (RensaP * sp67);
-                                } else {
-                                    var_v0 = var_a1_2 + (RensaP * sp67);
-                                }
-                                goto block_88;
-                            }
-                            var_v1 = sp5F;
-                            goto block_68;
-                        case 0x2:
-                            var_a1_2 = temp_s3->unk_8 + ((s16) aiHiErB * D_8008856A);
-                            temp_s3->unk_8 = var_a1_2;
-                            if (sp6F != 0) {
-                                if ((((sp67 != 0) | (sp5F != 0)) != 0) || (var_s0 & 0xFF)) {
-                                    var_v0 = var_a1_2 + (RensaP * sp6F);
-                                } else {
-                                    var_v0 = var_a1_2 + (RensaP * sp6F);
-                                }
-                                goto block_88;
-                            }
-                            if (((sp67 != 0) | (sp5F != 0)) == 0) {
-                                if (!(var_s0 & 0xFF)) {
-                                    temp_s3->unk_8 = var_a1_2;
-                                } else {
-                                    goto block_86;
-                                }
-                            } else {
-                                goto block_86;
-                            }
-                            break;
-                    }
-                }
-            } else {
-                (aiFlag + 8)[sp8C] = 0xFFF0BDC0;
-            }
-            sp8C += 0x40;
-            temp_t4 = sp34 + 1;
-            sp34 = temp_t4;
-        } while (temp_t4 < (s32) aiFlagCnt);
-    }
-    if ((u8) sp2C->unk_23E != 0) {
-        var_s4 = 0xFFF0BDBF;
-        var_s0_3 = 0;
-        sp34 = 0;
-        if ((s32) aiFlagCnt > 0) {
-            var_s1_2 = 0;
-            do {
-                var_a2_2 = 0;
-                if (aiPriOfs != 0) {
-                    var_a2_2 = genrand((s32) aiPriOfs) & 0xFFFF;
-                }
-                temp_v1_2 = (aiFlag + 8)[var_s1_2] + var_a2_2;
-                if (var_s4 < temp_v1_2) {
-                    var_s4 = temp_v1_2;
-                    var_s0_3 = sp34;
-                }
-                var_s1_2 += 0x40;
-                temp_t4_3 = sp34 + 1;
-                sp34 = temp_t4_3;
-            } while (temp_t4_3 < (s32) aiFlagCnt);
-        }
-    } else {
-        var_s2_3 = 0xFFF0BDBF;
-        var_s4_2 = -0xF4241;
-        var_s0_3 = 0;
-        sp34 = 0;
-        if ((s32) aiFlagCnt > 0) {
-            var_s1_3 = 0;
-            do {
-                if (aiPriOfs != 0) {
-                    var_a0 = (aiPriOfs + 0x64) & 0xFFFF;
-                } else {
-                    var_a0 = 0x64;
-                }
-                temp_a0_4 = (aiFlag + 8)[var_s1_3];
-                temp_v1_3 = temp_a0_4 + (genrand(var_a0) & 0xFFFF);
-                if (var_s2_3 < temp_v1_3) {
-                    var_s2_3 = temp_v1_3;
-                    if (var_s4_2 < temp_a0_4) {
-                        var_s4_2 = temp_a0_4;
-                    }
-                    var_s0_3 = sp34;
-                }
-                if (*(aiFlag + 8 + (var_s0_3 << 6)) < var_s4_2) {
-                    sp2C->unk_23E = 1;
-                }
-                var_s1_3 += 0x40;
-                temp_t4_4 = sp34 + 1;
-                sp34 = temp_t4_4;
-            } while (temp_t4_4 < (s32) aiFlagCnt);
-        }
-    }
-    decide = (s8) var_s0_3;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
-#endif
-#endif
-
 #if VERSION_GW
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 
-#if VERSION_CN
-#ifdef NON_MATCHING
+#if VERSION_US || VERSION_CN
+#if VERSION_US || defined(NON_MATCHING)
 void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
     struct_aiFlag *temp;
     s32 sp30;
@@ -2701,7 +2286,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                     aif_field[var_s3][var_s1].co = var_v0_2;
                 }
 
-                if (aif_field[temp2 - 1][temp_s0].st == aif_field[temp2][temp_s0].st) {
+                if (aif_field[temp2 - 1][temp_s0].co == aif_field[temp2][temp_s0].co) {
                     var_t1 = 1;
                 }
                 var_s2 = aifSearchLineMS(temp, temp_s0, temp2, var_s5, temp_s0, temp2 - 1, var_v0_2, var_t1);
@@ -2713,12 +2298,12 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                     var_s1 = temp_s0 + 1;
                     var_s3 = temp2;
                     sp38 = 3;
-                    if (temp->rev != 0) {
-                        var_s5 = aiNext[1];
-                        var_v0_2 = aiNext[0];
-                    } else {
+                    if (temp->rev == 0) {
                         var_s5 = aiNext[0];
                         var_v0_2 = aiNext[1];
+                    } else {
+                        var_s5 = aiNext[1];
+                        var_v0_2 = aiNext[0];
                     }
                 } else {
                     var_s6 = temp_s0 + 1;
@@ -2918,6 +2503,8 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                                 if (var_s7 >= 3U) {
                                     temp->pri += RensaMP;
                                 }
+                            } else {
+                                temp->pri += 0;
                             }
                         }
                         break;
@@ -2935,6 +2522,8 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                                 if (var_s7 >= 3U) {
                                     temp->pri += RensaMP;
                                 }
+                            } else {
+                                temp->pri += 0;
                             }
                         }
                         break;
@@ -2966,8 +2555,8 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                 temp2 = genrand(0x64);
             }
 
-            if (var_s3_2 < temp2 + aiFlag[sp30].pri) {
-                var_s3_2 = temp2 + aiFlag[sp30].pri;
+            if (var_s3_2 < aiFlag[sp30].pri + temp2) {
+                var_s3_2 = aiFlag[sp30].pri + temp2;
                 if (temp_s0 < aiFlag[sp30].pri) {
                     temp_s0 = aiFlag[sp30].pri;
                 }
