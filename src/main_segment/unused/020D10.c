@@ -89,7 +89,7 @@ void func_80038EF0(Mtx *mtx, u16 *perspNorm) {
     guMtxF2L(sp28, mtx);
 }
 
-void func_8003901C(Gfx **arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void func_8003901C(Gfx **arg0, u16 *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     Gfx *var_t2 = *arg0;
     s32 temp_lo = 0x800 / arg4;
     s32 var_t7;
@@ -97,13 +97,13 @@ void func_8003901C(Gfx **arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
     gSPDisplayList(var_t2++, D_8008CFA0);
 
     for (var_t7 = 0; var_t7 < arg5; var_t7 += temp_lo) {
-        gDPLoadTextureTile(var_t2++, &((u16 *)arg1)[arg4 * var_t7], G_IM_FMT_RGBA, G_IM_SIZ_16b, arg4, temp_lo, 0, 0,
-                           arg4 - 1, MIN(temp_lo, arg5 - var_t7) - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK,
-                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureTile(var_t2++, &arg1[arg4 * var_t7], G_IM_FMT_RGBA, G_IM_SIZ_16b, arg4, temp_lo, 0, 0, arg4 - 1,
+                           MIN(temp_lo, arg5 - var_t7) - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                           G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPScisTextureRectangle(var_t2++, arg2 << (arg2 < 0 ? 0 : 2), (arg3 + var_t7) << 2,
-                                (arg2 + arg4 - 1) << 2, (MIN(arg3 + var_t7 + temp_lo, arg3 + arg5) - 1) << 2,
-                                G_TX_RENDERTILE, 0, 0, 0x1000, 0x400);
+        gSPScisTextureRectangle(var_t2++, arg2 << (arg2 < 0 ? 0 : 2), (arg3 + var_t7) << 2, (arg2 + arg4 - 1) << 2,
+                                (MIN(arg3 + var_t7 + temp_lo, arg3 + arg5) - 1) << 2, G_TX_RENDERTILE, 0, 0, 0x1000,
+                                0x400);
     }
 
     *arg0 = var_t2;
