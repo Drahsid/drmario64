@@ -2215,8 +2215,9 @@ s32 aifSearchLineMS(struct_aiFlag *ag, s32 mx, s32 my, s32 mco, s32 sx, s32 sy, 
     return 0;
 }
 
-#if VERSION_US || VERSION_GW || VERSION_CN
-#if VERSION_US || VERSION_GW || defined(NON_MATCHING)
+/**
+ * Original name: aiHiruAllPriSet
+ */
 void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
     struct_aiFlag *temp;
     s32 sp30;
@@ -2565,12 +2566,9 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
         }
     }
 
+    temp2 = aiFlag[var_s2].y;
     decide = var_s2;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
-#endif
-#endif
 
 /**
  * Original name: aiSetCharacter
