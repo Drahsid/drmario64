@@ -3,8 +3,8 @@
 
 #include "libultra.h"
 
-// void func_8007F890();
-// void func_8007F990();
-// void func_8007F9D0();
+void func_8007F890(s32 *arg0, u32 *arg1);
+void func_8007F990(u32 *arg0, u32 *arg1);
+void func_8007F9D0(u32 *arg0, u32 *arg1);
 
 #endif

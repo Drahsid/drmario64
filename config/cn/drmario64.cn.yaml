@@ -440,7 +440,7 @@ segments:
 
       - [0x071830, hasm, main_segment/calcsub]
 
-      - [0x0726F0, c, main_segment/unused/055C40]
+      - [0x0726F0, hasm, main_segment/unused/055C40]
 
       - [0x072880, c, ../lib/libmus/src/player]
       - [0x075D50, c, ../lib/libmus/src/player_fx]

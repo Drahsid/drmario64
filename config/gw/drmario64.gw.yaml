@@ -516,7 +516,7 @@ segments:
       - [0x0672F0, c, main_segment/066580]
 
       - [0x0675B0, hasm, main_segment/calcsub]
-      - [0x068420, c, main_segment/unused/055C40]
+      - [0x068420, hasm, main_segment/unused/055C40]
 
       - [0x068590, c, ../lib/libmus/src/player]
       - [0x06BE70, c, ../lib/libmus/src/player_fx]
